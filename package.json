@@ -1,0 +1,20 @@
+{
+  "name": "mongoose",
+  "version": "1.0.0",
+  "description": "Mongoose practice",
+  "main": "index.js",
+  "scripts": {
+    "json:server": "json-server db.json",
+    "dev": "nodemon index.js"
+  },
+  "author": "Babai Bose",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "json-server": "^1.0.0-beta.1",
+    "mongoose": "^8.5.1",
+    "nodemon": "^3.1.4"
+  }
+}
