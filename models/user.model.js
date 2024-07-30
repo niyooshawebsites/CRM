@@ -1,36 +1,13 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
-const addressSchema = new mongoose.Schema({
-  city: {
-    type: String,
-    required: true,
-    lowercase: true,
-  },
-  state: {
-    type: String,
-    required: true,
-    lowercase: true,
-  },
-  pincode: {
-    type: Number,
-    required: true,
-    min: 6,
-    max: 6,
-  },
-});
-
-const authorSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
-    name: {
+    username: {
       type: String,
       required: true,
       immutable: true,
       lowercase: true,
-    },
-    age: {
-      type: Number,
-      required: true,
-      min: 18,
     },
     email: {
       type: String,
@@ -39,31 +16,9 @@ const authorSchema = new mongoose.Schema(
       maxLength: 100,
       lowercase: true,
     },
-    contactNumber: {
-      type: Number,
-      require: true,
-      min: 10,
-      max: 12,
-      unique: true,
-    },
-    hobbies: {
-      type: [String],
-    },
-    address: addressSchema,
-    isAdmin: true,
-    favcolor: {
+    password: {
       type: String,
-      require: true,
-      lowercase: true,
-    },
-    favFruit: {
-      type: String,
-      require: true,
-      lowercase: true,
-    },
-    book: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Book",
+      required: true,
     },
   },
   {
@@ -71,4 +26,10 @@ const authorSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Author", authorSchema);
+userSchema.pre("save", async function (next) {
+  const salt = 10;
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+module.exports = mongoose.model("User", userSchema);
