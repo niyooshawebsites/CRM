@@ -2,7 +2,10 @@ const response = (res, statusCode, success, msg, obj) => {
   return res.status(statusCode).json({
     success,
     msg,
-    user: obj,
+    newUser: {
+      username: obj?.username,
+      email: obj?.email,
+    },
   });
 };
 

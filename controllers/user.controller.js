@@ -23,7 +23,7 @@ const registerUserController = async (req, res) => {
     if (!user) {
       const newUser = User({ username, email, password });
       await newUser.save();
-      return response(res, 200, true, "Registraion successful", user);
+      return response(res, 200, true, "Registraion successful", newUser);
     }
   }
 };
