@@ -9,9 +9,22 @@ const registerUserController = async (req, res) => {
   }
 
   if (username && password && email) {
-    const user = User({ username, email, password });
-    await user.save();
-    return response(res, 200, true, "Registraion successful", user);
+    // find user by username or email...
+    const user = await User.findOne({
+      $or: [{ email: email }, { username: username }],
+    });
+
+    // if user already exists...
+    if (user) {
+      return response(res, 500, false, "User already exists", null);
+    }
+
+    // if user not found......
+    if (!user) {
+      const newUser = User({ username, email, password });
+      await newUser.save();
+      return response(res, 200, true, "Registraion successful", user);
+    }
   }
 };
 
