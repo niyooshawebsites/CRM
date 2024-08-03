@@ -18,7 +18,7 @@ const registerUserController = async (req, res) => {
 
     // if user already exists...
     if (user) {
-      return response(res, 500, false, "User already exists", null);
+      return response(res, 409, false, "User already exists", null);
     }
 
     // if user not found......
@@ -37,31 +37,38 @@ const loginController = async (req, res) => {
     return response(res, 400, false, "Please provide all the details", null);
   }
 
-  const user = await User.findOne({ email });
-  console.log(user);
+  try {
+    const user = await User.findOne({ email });
+    console.log(user);
 
-  // if user not found
-  if (!user) {
-    return response(res, 500, false, "Invalid username or password", null);
-  }
-
-  // if user found
-  if (user) {
-    const comparePassword = await bcrypt.compare(password, user.password);
-
-    if (!comparePassword) {
+    // if user not found
+    if (!user) {
       return response(res, 500, false, "Invalid username or password", null);
     }
 
-    if (comparePassword) {
-      const token = jwt.sign(
-        { username: user.username },
-        process.env.JWT_SECRET,
-        { expiresIn: "1h" }
-      );
+    // if user found
+    if (user) {
+      const comparePassword = await bcrypt.compare(password, user.password);
 
-      res.cookie("token", token, { httpOnly: true, secure: true });
+      if (!comparePassword) {
+        return response(res, 500, false, "Invalid username or password", null);
+      }
+
+      if (comparePassword) {
+        const token = jwt.sign(
+          { username: user.username },
+          process.env.JWT_SECRET,
+          { expiresIn: "1h" }
+        );
+
+        res.cookie("token", token, { httpOnly: true, secure: true });
+
+        return response(res, 200, true, "Login successful", { token });
+      }
     }
+  } catch (err) {
+    console.log(err);
+    return response(res, 500, false, "Internal server error", null);
   }
 };
 

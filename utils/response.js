@@ -3,8 +3,8 @@ const response = (res, statusCode, success, msg, obj) => {
     success,
     msg,
     newUser: {
-      username: obj?.username,
-      email: obj?.email,
+      username: obj?.username || null,
+      email: obj?.email || null,
     },
   });
 };

@@ -19,10 +19,12 @@ const authMiddleware = async (req, res, next) => {
   if (token) {
     try {
       const decoded_token = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded_token;
       response(res, 200, true, "Access token found.", user);
       next();
     } catch (err) {
       console.log(err);
+      return response(res, 401, false, "Invalid token", null);
     }
   }
 };
