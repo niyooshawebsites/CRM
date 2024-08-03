@@ -1,4 +1,5 @@
 const response = require("../utils/response");
+const jwt = require("jsonwebtoken");
 
 const authMiddleware = async (req, res, next) => {
   const token = req.cookies.token;
@@ -16,7 +17,13 @@ const authMiddleware = async (req, res, next) => {
 
   //   if token found
   if (token) {
-    return response(res, 200, true, "Access token found.", null);
+    try {
+      const decoded_token = jwt.verify(token, process.env.JWT_SECRET);
+      response(res, 200, true, "Access token found.", user);
+      next();
+    } catch (err) {
+      console.log(err);
+    }
   }
 };
 
