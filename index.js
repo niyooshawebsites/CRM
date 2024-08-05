@@ -3,6 +3,7 @@ const connect = require("./db/connection");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const { registerRoute, loginRoute } = require("./routes/user.route");
+const bookCreateRoute = require("./routes/book.route");
 const authMiddleware = require("./middlewares/auth.middleware");
 dotenv.config({ path: "./.env" });
 connect();
@@ -16,5 +17,6 @@ const PORT = process.env.PORT || 6600;
 // routes...
 app.use(process.env.BASE_URL, registerRoute);
 app.use(process.env.BASE_URL, authMiddleware, loginRoute);
+app.use(process.env.BASE_URL, bookCreateRoute);
 
 app.listen(PORT, () => console.log(`App running on port ${PORT}`));
