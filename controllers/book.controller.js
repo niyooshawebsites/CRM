@@ -21,7 +21,7 @@ const bookCreateController = async (req, res) => {
 
 const fetchBooksController = async (req, res) => {
   try {
-    const books = await Book.find();
+    const books = await Book.find().populate("author");
 
     // if books are found...
     if (books) {

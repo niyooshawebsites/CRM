@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 6600;
 
 // routes...
 app.use(process.env.BASE_URL, registerRoute);
-app.use(process.env.BASE_URL, authMiddleware, loginRoute);
+app.use(process.env.BASE_URL, loginRoute);
 app.use(process.env.BASE_URL, bookCreateRoute);
 app.use(process.env.BASE_URL, fetchBookRoute);
 

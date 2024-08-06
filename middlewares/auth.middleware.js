@@ -6,13 +6,7 @@ const authMiddleware = async (req, res, next) => {
 
   //   if token not found
   if (!token) {
-    return response(
-      res,
-      401,
-      false,
-      "Access token denied. No token found",
-      null
-    );
+    return response(res, 401, false, "No token found", null);
   }
 
   //   if token found
