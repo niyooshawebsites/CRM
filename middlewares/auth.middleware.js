@@ -2,7 +2,7 @@ const response = require("../utils/response");
 const jwt = require("jsonwebtoken");
 
 const authMiddleware = async (req, res, next) => {
-  const token = req.cookies.token;
+  const token = req.cookies?.token;
 
   //   if token not found
   if (!token) {
@@ -19,12 +19,13 @@ const authMiddleware = async (req, res, next) => {
   if (token) {
     try {
       const decoded_token = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded_token;
-      response(res, 200, true, "Access token found.", user);
-      next();
+
+      if (decoded_token) {
+        next();
+      }
     } catch (err) {
       console.log(err);
-      return response(res, 401, false, "Invalid token", null);
+      response(res, 401, false, "Invalid token", null);
     }
   }
 };
