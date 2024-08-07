@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const { registerRoute, loginRoute } = require("./routes/user.route");
 const { bookCreateRoute, fetchBookRoute } = require("./routes/book.route");
+const createLeadRoute = require("./routes/lead.route");
 dotenv.config({ path: "./.env" });
 connect();
 
