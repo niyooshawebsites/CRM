@@ -1,11 +1,10 @@
 {
-  "name": "mongoose",
+  "name": "crm",
   "version": "1.0.0",
-  "description": "Mongoose practice",
+  "description": "customer relationship management",
   "main": "index.js",
   "scripts": {
-    "json:server": "json-server db.json",
-    "dev": "nodemon index.js"
+    "dev": "nodemon server.js"
   },
   "author": "Babai Bose",
   "license": "ISC",
