@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const leadSchema = new mongoose.Schema(
+const prospectSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -13,6 +13,7 @@ const leadSchema = new mongoose.Schema(
     email: {
       type: String,
       unique: true,
+      default: "NA",
       required: [true, "Please provide the email"],
     },
     contactNo: {
@@ -46,9 +47,15 @@ const leadSchema = new mongoose.Schema(
         required: [true, "Please provide the pincode"],
       },
     },
-    status: {
-      type: String,
-      default: "Prospect",
+    isLead: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    isActive: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
   },
   {
@@ -56,4 +63,4 @@ const leadSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Lead", leadSchema);
+module.exports = mongoose.model("Prospect", prospectSchema);
