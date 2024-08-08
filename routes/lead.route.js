@@ -1,11 +1,20 @@
 const router = require("express").Router();
-const leadController = require("../controllers/lead.controller");
+const {
+  updateLeadController,
+  fetchAllLeadsController,
+} = require("../controllers/lead.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
 
-const createLeadRoute = router.patch(
-  "/create-lead",
+const updateLeadRoute = router.patch(
+  "/update-lead/:id",
   authMiddleware,
-  leadController
+  updateLeadController
 );
 
-module.exports = createLeadRoute;
+const fetchAllLeadsRoute = router.get(
+  "/fetch-all-leads",
+  authMiddleware,
+  fetchAllLeadsController
+);
+
+module.exports = { updateLeadRoute, fetchAllLeadsRoute };

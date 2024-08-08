@@ -202,4 +202,9 @@ const updateProspectController = async (req, res) => {
   }
 };
 
-module.exports = fetchAllProspectsController;
+module.exports = {
+  prospectController,
+  fetchAllProspectsController,
+  fetchProspectController,
+  updateProspectController,
+};

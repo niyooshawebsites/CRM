@@ -1,7 +1,8 @@
 const Prospect = require("../models/prospect.model");
 const response = require("../utils/response");
 
-const leadController = async (req, res) => {
+// UPDATE controller - one lead
+const updateLeadController = async (req, res) => {
   try {
     const {
       name,
@@ -72,13 +73,7 @@ const leadController = async (req, res) => {
 
         // if updation successful
         if (newLead) {
-          return response(
-            res,
-            201,
-            true,
-            "Data updated successfully",
-            newProspect
-          );
+          return response(res, 201, true, "Data updated successfully", newLead);
         }
 
         // if updation successful
@@ -88,7 +83,7 @@ const leadController = async (req, res) => {
             205,
             false,
             "Data updated successfully",
-            newProspect
+            newLead
           );
         }
       }
@@ -98,4 +93,23 @@ const leadController = async (req, res) => {
   }
 };
 
-module.exports = leadController;
+// GET controller - all leads
+const fetchAllLeadsController = async (req, res) => {
+  try {
+    const allProspects = await Prospect.find();
+
+    // if prospects found
+    if (allProspects) {
+      return response(res, 200, true, "All prospects fetched", allProspects);
+    }
+
+    // if prospects not found
+    if (!allProspects) {
+      return response(res, 404, false, "No prospects found", null);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+module.exports = { updateLeadController, fetchAllLeadsController };
