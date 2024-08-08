@@ -18,8 +18,8 @@ const prospectSchema = new mongoose.Schema(
     },
     contactNo: {
       type: Number,
-      min: 10,
-      max: 10,
+      minLength: 10,
+      maxLength: 10,
       unique: true,
       required: [true, "Please provide the contact number"],
     },
@@ -42,8 +42,8 @@ const prospectSchema = new mongoose.Schema(
       },
       pincode: {
         type: Number,
-        min: 6,
-        max: 6,
+        minLength: 6,
+        maxLength: 6,
         required: [true, "Please provide the pincode"],
       },
     },

@@ -62,11 +62,7 @@ const prospectController = async (req, res) => {
           age,
           email,
           contactNo,
-          houseNo,
-          streetNo,
-          city,
-          state,
-          pincode,
+          address: { houseNo, streetNo, city, state, pincode },
         });
 
         await newProspect.save();
@@ -120,6 +116,7 @@ const fetchProspectController = async (req, res) => {
 
 // UPDATE controller - one prospect
 const updateProspectController = async (req, res) => {
+  const id = req.params.id;
   try {
     const {
       name,
@@ -172,31 +169,34 @@ const updateProspectController = async (req, res) => {
 
       // if no data already exists
       if (prospectExists) {
-        const newProspect = Prospect.updateOne(
+        await Prospect.updateOne(
+          { _id: id },
           {
-            name,
-            age,
-            email,
-            contactNo,
-            houseNo,
-            streetNo,
-            city,
-            state,
-            pincode,
-          },
-          {
-            name,
-            age,
-            email,
-            contactNo,
-            houseNo,
-            streetNo,
-            city,
-            state,
-            pincode,
+            $set: {
+              name,
+              age,
+              email,
+              contactNo,
+              address: {
+                houseNo,
+                streetNo,
+                city,
+                state,
+                pincode,
+              },
+            },
           }
         );
-        return response(res, 201, true, "Data saved successfully", newProspect);
+
+        const updatedProspect = await findById(id);
+
+        return response(
+          res,
+          201,
+          true,
+          "Data saved successfully",
+          updatedProspect
+        );
       }
     }
   } catch (err) {
