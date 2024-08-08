@@ -10,6 +10,7 @@ const {
   updateProspectRoute,
 } = require("./routes/prospect.route");
 const { updateLeadRoute, fetchAllLeadsRoute } = require("./routes/lead.route");
+const authMiddleware = require("./middlewares/auth.middleware");
 dotenv.config({ path: "./.env" });
 connect();
 
@@ -21,7 +22,7 @@ const PORT = process.env.PORT || 6600;
 
 // routes...
 app.use(process.env.BASE_URL, registerRoute);
-app.use(process.env.BASE_URL, loginRoute);
+app.use(process.env.BASE_URL, authMiddleware, loginRoute);
 app.use(process.env.BASE_URL, createProspectRoute);
 app.use(process.env.BASE_URL, fetchAllProspectsRoute);
 app.use(process.env.BASE_URL, fetchProspectRoute);

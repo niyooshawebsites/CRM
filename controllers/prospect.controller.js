@@ -16,6 +16,8 @@ const prospectController = async (req, res) => {
       pincode,
     } = req.body;
 
+    console.log(req.body);
+
     // if all the details are not provided
     if (
       !name ||
