@@ -3,6 +3,7 @@ const response = require("../utils/response");
 
 // UPDATE controller - one lead
 const updateLeadController = async (req, res) => {
+  const id = req.params.id;
   try {
     const {
       name,
@@ -56,15 +57,15 @@ const updateLeadController = async (req, res) => {
         $or: [{ email }, { contactNo }],
       });
 
-      // if data already exists
-      if (prospectExists) {
-        return response(res, 409, false, "Data already exists", null);
+      // if data does not exist
+      if (!prospectExists) {
+        return response(res, 404, false, "Data does not exist", null);
       }
 
       // if no data already exists
-      if (!prospectExists) {
-        const newLead = await Prospect.updateOne(
-          { contactNo },
+      if (prospectExists) {
+        const updatedLead = await Prospect.updateOne(
+          { _id: id },
           {
             isLead,
             isActive,
@@ -72,18 +73,19 @@ const updateLeadController = async (req, res) => {
         );
 
         // if updation successful
-        if (newLead) {
-          return response(res, 201, true, "Data updated successfully", newLead);
+        if (!updatedLead) {
+          return response(res, 501, true, "Unable to update data", newLead);
         }
 
         // if updation successful
-        if (!newLead) {
+        if (updatedLead) {
+          const updatedRecord = await Lead.findById(id);
           return response(
             res,
             205,
             false,
             "Data updated successfully",
-            newLead
+            updatedRecord
           );
         }
       }
