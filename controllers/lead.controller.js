@@ -64,30 +64,37 @@ const updateLeadController = async (req, res) => {
 
       // if no data already exists
       if (prospectExists) {
-        const updatedLead = await Prospect.updateOne(
+        await Prospect.updateOne(
           { _id: id },
           {
-            isLead,
-            isActive,
+            $set: {
+              name,
+              age,
+              email,
+              contactNo,
+              address: {
+                houseNo,
+                streetNo,
+                city,
+                state,
+                pincode,
+                status,
+              },
+              isLead,
+              isActive,
+            },
           }
         );
 
         // if updation successful
-        if (!updatedLead) {
-          return response(res, 501, true, "Unable to update data", newLead);
-        }
-
-        // if updation successful
-        if (updatedLead) {
-          const updatedRecord = await Lead.findById(id);
-          return response(
-            res,
-            205,
-            false,
-            "Data updated successfully",
-            updatedRecord
-          );
-        }
+        const updatedRecord = await Lead.findById(id);
+        return response(
+          res,
+          201,
+          true,
+          "Data updated successfully",
+          updatedRecord
+        );
       }
     }
   } catch (err) {
