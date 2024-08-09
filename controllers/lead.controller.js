@@ -48,14 +48,13 @@ const updateLeadController = async (req, res) => {
       city &&
       state &&
       pincode &&
-      status &&
       isLead &&
       isActive
     ) {
       // check for existing data
-      const prospectExists = await Prospect.findOne({
-        $or: [{ email }, { contactNo }],
-      });
+      const prospectExists = await Prospect.findById(id);
+
+      console.log("yeah");
 
       // if data does not exist
       if (!prospectExists) {
@@ -78,7 +77,6 @@ const updateLeadController = async (req, res) => {
                 city,
                 state,
                 pincode,
-                status,
               },
               isLead,
               isActive,
@@ -87,7 +85,7 @@ const updateLeadController = async (req, res) => {
         );
 
         // if updation successful
-        const updatedRecord = await Lead.findById(id);
+        const updatedRecord = await Prospect.findById(id);
         return response(
           res,
           201,
