@@ -2,7 +2,7 @@ const User = require("../models/user.model");
 const response = require("../utils/response");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const sendVerificationEmailMiddleware = require("../middlewares/sendVerificationEmail.middleware");
+const sendVerificationEmail = require("../utils/sendVerificationEmail");
 
 const registerUserController = async (req, res) => {
   const { username, email, password } = req.body;
@@ -28,7 +28,7 @@ const registerUserController = async (req, res) => {
       await newUser.save();
 
       // sending the email to send verification email middleware function
-      sendVerificationEmailMiddleware(email);
+      sendVerificationEmail(email);
 
       return response(res, 200, true, "Registraion successful", newUser);
     }

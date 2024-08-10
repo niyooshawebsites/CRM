@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 
-const sendVerificationEmailMiddleware = async (email) => {
+const sendVerificationEmail = async (email) => {
   const token = jwt.sign({ email }, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
@@ -25,4 +25,4 @@ const sendVerificationEmailMiddleware = async (email) => {
   await transporter.sendMail(mailOptions);
 };
 
-module.exports = sendVerificationEmailMiddleware;
+module.exports = sendVerificationEmail;
