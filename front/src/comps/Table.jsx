@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Table = () => {
   return (
     <table className="table table-striped">
@@ -12,6 +14,7 @@ const Table = () => {
           <th>State</th>
           <th>Acitve</th>
           <th>Lead</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -25,6 +28,9 @@ const Table = () => {
           <th>Delhi</th>
           <th>False</th>
           <th>False</th>
+          <th>
+            <Link to="/">Edit</Link>
+          </th>
         </tr>
       </tbody>
     </table>

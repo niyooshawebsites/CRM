@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: "prospect",
     },
+    isVerified: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   {
     timestamps: true,
